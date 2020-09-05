@@ -14,11 +14,11 @@ namespace pikachuface.UI
         /// <summary>
         /// Types of answers for the dialoh window.
         /// </summary>
-        public enum Answers { YES, NO, OK, CANCEL }
+        public enum Answers { YES, NO, OK, CANCEL, NONE }
         /// <summary>
         /// Types of messages for the dialog window.
         /// </summary>
-        public enum MessageTypes { GOOD, INFO, WARNING }
+        public enum MessageTypes { GOOD, INFO, CAUTION, WARNING }
 
         /// <summary>
         /// Text of the dialog window.
@@ -40,7 +40,7 @@ namespace pikachuface.UI
         public Answers Answer { get; private set; }
 
         /// <summary>
-        /// 
+        /// Constructor for the Dialog class
         /// </summary>
         /// <param name="text">Sets the text of the dialog window.</param>
         /// <param name="messageType">Sets what kind of message the dialog winddow will be.</param>
@@ -50,6 +50,7 @@ namespace pikachuface.UI
             this.Text = text;
             this.messageType = messageType;
             this.InputType = inputType;
+            this.Answer = Answers.NONE;
         }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace pikachuface.UI
         /// <returns>User's answer</returns>
         public static Answers Show(string text, MessageTypes messageType = MessageTypes.INFO, InputTypes inputType = InputTypes.OK)
         {
-            while(true)
+            while (true)
             {
                 Console.Clear();
                 ConsoleColor defaultColor = Console.ForegroundColor;
@@ -82,6 +83,9 @@ namespace pikachuface.UI
                         break;
                     case MessageTypes.INFO:
                         Console.ForegroundColor = ConsoleColor.Blue;
+                        break;
+                    case MessageTypes.CAUTION:
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         break;
                     case MessageTypes.WARNING:
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -102,29 +106,29 @@ namespace pikachuface.UI
                         Console.Write("Write \"yes\" or \"no\": ");
                         break;
                     case InputTypes.YES_NO_CANCEL:
-                        Console.WriteLine("y) YES\nn) NO\n q) CANCEL");
+                        Console.WriteLine("y) YES\nn) NO\nq) CANCEL");
                         break;
                 }
 
                 string response;
-                if(inputType == InputTypes.YES_NO_serious)
+                if (inputType == InputTypes.YES_NO_serious)
                 {
-                   response = Console.ReadLine().ToLower();
-                   if(response=="yes") return Answers.YES;
-                   if(response=="no") return Answers.NO;
+                    response = Console.ReadLine().ToLower();
+                    if (response == "yes") return Answers.YES;
+                    if (response == "no") return Answers.NO;
                 }
                 else
                 {
                     response = Console.ReadKey().KeyChar.ToString();
-                    if(inputType == InputTypes.YES_NO_CANCEL && response == "q") return Answers.CANCEL;
-                    if(inputType == InputTypes.YES_NO_CANCEL || inputType == InputTypes.YES_NO)
+                    if (inputType == InputTypes.YES_NO_CANCEL && response == "q") return Answers.CANCEL;
+                    if (inputType == InputTypes.YES_NO_CANCEL || inputType == InputTypes.YES_NO)
                     {
-                        if(response=="y") return Answers.YES;
-                        if(response=="n") return Answers.NO;
+                        if (response == "y") return Answers.YES;
+                        if (response == "n") return Answers.NO;
                     }
-                    if(inputType == InputTypes.OK) return Answers.OK;
-                } 
+                    if (inputType == InputTypes.OK) return Answers.OK;
+                }
             }
-        }        
+        }
     }
 }
