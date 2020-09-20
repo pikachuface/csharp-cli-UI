@@ -8,17 +8,41 @@ namespace pikachuface.UI
 
     class Banner
     {
+        /// <summary>
+        /// Types of banner.
+        /// </summary>
         public enum Types { PressToContine, AutoContinue }
-        public string Content; 
+        /// <summary>
+        /// Content of the banner (e.g. Ascii Art)
+        /// </summary>
+        public string Content;
+        /// <summary>
+        /// Type of this banner.
+        /// </summary>
+        /// <value>If you have to click or wait for the banner to disappear.</value>
         public Types Type{get; private set;}
+        /// <summary>
+        /// How long will user wait for the banner(Only if you have set type to <code>AutoContine</code>).
+        /// </summary>
+        /// <value>in milliseconds</value>
         public int WaitTime = 1000;
 
+        /// <summary>
+        /// Ctor for Banner class.
+        /// </summary>
+        /// <param name="content">What will be displayed.</param>
+        /// <param name="type">How will user interact with the banner.</param>
         public Banner(string content, Types type)
         {
             this.Content = content;
             this.Type = type;
         }
 
+        /// <summary>
+        /// Ctor for Banner class.
+        /// </summary>
+        /// <param name="content">What will be displayed.</param>
+        /// <param name="type">How will user interact with the banner.</param>
         public Banner(Stream content, Types type)
         {
             using (var sr = new StreamReader(content)) this.Content = sr.ReadToEnd();
@@ -26,7 +50,9 @@ namespace pikachuface.UI
         }
 
 
-
+        /// <summary>
+        /// Shows the banner
+        /// </summary>    
         public void Show()
         {
             Console.Clear();
@@ -51,6 +77,10 @@ namespace pikachuface.UI
             }
         }
 
+        /// <summary>
+        /// Renders the conntent on the screen.
+        /// </summary>
+        /// <returns>Max width of the banner(<code>0</code> if there is no content)</returns>
         private int renderContents()
         {
             int maxWidth = 0;
